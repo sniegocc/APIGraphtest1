@@ -56,14 +56,14 @@ export class AppComponent implements OnInit {
       var people = [];
       var next = from + step;
       this.peopleList.forEach(eachObj => {
-        console.log(eachObj.birth_year)
+        //console.log(index)
         if (eachObj.birth_year >= from && eachObj.birth_year < next) {
           people.push(eachObj);
         }
-        if (eachObj.birth_year >= to) {
+        if (next == to && eachObj.birth_year >= to) {
           max.push(eachObj);
         }
-        if (isNaN(eachObj.birth_year)) {
+        if (next == to && isNaN(eachObj.birth_year)) {
           undef.push(eachObj);
         }
       });
