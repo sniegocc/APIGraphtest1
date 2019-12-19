@@ -1,0 +1,13 @@
+<div class="container" *ngIf="loaded">
+
+    <div class="row">
+
+<div class="col" *ngFor="let range of ranges">
+   <span *ngIf="range.from">{{range.from}}</span>
+    <span *ngIf="range.to"> - {{range.to}}BBY</span>
+    <span *ngIf="!range.to">BBY++</span>
+<people *ngFor="let person of range.people"  [p]="person" ></people>
+  </div>
+
+</div>
+</div>
