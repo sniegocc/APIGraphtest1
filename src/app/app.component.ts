@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import "rxjs/add/operator/map";
-import { Observable } from "rxjs/Rx";
 
 @Component({
   selector: "my-app",
@@ -9,8 +8,10 @@ import { Observable } from "rxjs/Rx";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-  public peopleList;
+  public peopleList = [];
   public ranges;
+  public peopleTemp;
+  url = "https://swapi.co/api/people/";
 
   loaded = false;
 
@@ -20,17 +21,21 @@ export class AppComponent implements OnInit {
     this.loadPeople();
   }
 
-  public loadPeople(): Observable {
-    this.peopleList = this.http
-      .get("https://swapi.co/api/people/?page=4")
+  public loadPeople() {
+    this.peopleTemp = this.http
+      .get(this.url)
       .map(data => data.json())
       .subscribe(data => {
-        this.peopleList = data.results;
-        console.log(data.results);
-        this.parseDates();
-        this.sortByYear();
-        this.ranges = this.getRanges(20);
-        this.loaded = true;
+        this.peopleList = this.peopleList.concat(data.results);
+        this.url = data.next;
+        if (this.url != null) {
+          this.loadPeople();
+        } else {
+          this.parseDates();
+          this.sortByYear();
+          this.ranges = this.getRanges(20);
+          this.loaded = true;
+        }
       });
   }
   parseDates() {
@@ -47,16 +52,15 @@ export class AppComponent implements OnInit {
   }
 
   getRanges(step) {
-    var ranges = [];
-    var undef = [];
-    var max = [];
-    let from = 0,
+    var ranges = [],
+      undef = [],
+      max = [],
+      from = 0,
       to = 100;
     for (from; from < to; from += step) {
       var people = [];
       var next = from + step;
       this.peopleList.forEach(eachObj => {
-        //console.log(index)
         if (eachObj.birth_year >= from && eachObj.birth_year < next) {
           people.push(eachObj);
         }
@@ -67,11 +71,10 @@ export class AppComponent implements OnInit {
           undef.push(eachObj);
         }
       });
-        ranges.push({ from: from, to: next, people: people });
+      ranges.push({ from: from, to: next, postfix: "BBY", people: people });
     }
-    ranges.push({ from: to, to: false, people: max });
-    ranges.push({ from: "undefined", to: false, people: undef });
-    console.log(ranges);
+    ranges.push({ from: to, to: false,postfix: "BBY++", people: max });
+    ranges.push({ from: "undefined", to: false, postfix: "", people: undef });
     return ranges;
   }
 }

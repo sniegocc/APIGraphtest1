@@ -2,5 +2,5 @@ p {
   font-family: Lato;
 }
 .container{margin: 20px;}
-.col{width: 120px; display:inline-table; text-align: center;}
+.col{width: 120px; display:inline-table; text-align: center; }
 .row{width:100%;display: block;}
