@@ -6,11 +6,13 @@ import { Component, Input } from "@angular/core";
   styles: [
     `
       .box {
-        width: 100px;
+        max-width: 100px;
         height: 100px;
         margin: 2px;
         color: black;
         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
       .red {
         background-color: red;
