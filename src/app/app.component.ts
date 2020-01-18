@@ -52,14 +52,14 @@ export class AppComponent implements OnInit {
   }
 
   getRanges(step) {
-    var ranges = [],
+    let ranges = [],
       undef = [],
       max = [],
       from = 0,
       to = 100;
     for (from; from < to; from += step) {
-      var people = [];
-      var next = from + step;
+      let people = [];
+      let next = from + step;
       this.peopleList.forEach(eachObj => {
         if (eachObj.birth_year >= from && eachObj.birth_year < next) {
           people.push(eachObj);

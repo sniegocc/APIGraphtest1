@@ -36,7 +36,7 @@ export class PeopleComponent {
   @Input() to: any;
   @Input() notSet: any;
   getColor(person) {
-    var bmi = this.bmi(person.mass, person.height);
+    let bmi = this.bmi(person.mass, person.height);
     if (bmi < 16) {
       return "black";
     } else if (bmi >= 16 && bmi < 25) {
